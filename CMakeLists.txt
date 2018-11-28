@@ -22,6 +22,8 @@ catkin_package(
     sensor_msgs
     std_msgs
     trajectory_msgs
+  DEPENDS
+    YAML_CPP
 )
 
 ###########
@@ -31,6 +33,7 @@ catkin_package(
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
+  ${YAML_CPP_INCLUDE_DIRS}
 )
 
 #############
