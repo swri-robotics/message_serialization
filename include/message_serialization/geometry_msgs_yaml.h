@@ -19,6 +19,7 @@
 #include <geometry_msgs/PoseArray.h>
 #include <geometry_msgs/TransformStamped.h>
 #include <message_serialization/std_msgs_yaml.h>
+#include <geometry_msgs/PoseStamped.h>
 
 namespace YAML
 {
@@ -117,6 +118,28 @@ struct convert<geometry_msgs::Pose>
 
     rhs.position = node["position"].as<geometry_msgs::Point>();
     rhs.orientation = node["orientation"].as<geometry_msgs::Quaternion>();
+    return true;
+  }
+};
+
+template<>
+struct convert<geometry_msgs::PoseStamped>
+{
+  static Node encode(const geometry_msgs::PoseStamped& rhs)
+  {
+    Node node;
+    node["header"] = rhs.header;
+    node["pose"] = rhs.pose;
+
+    return node;
+  }
+
+  static bool decode(const Node& node, geometry_msgs::PoseStamped& rhs)
+  {
+    if (node.size() != 2) return false;
+
+    rhs.header = node["header"].as<std_msgs::Header>();
+    rhs.pose = node["pose"].as<geometry_msgs::Pose>();
     return true;
   }
 };
