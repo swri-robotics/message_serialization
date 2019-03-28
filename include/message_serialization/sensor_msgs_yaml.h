@@ -18,6 +18,7 @@
 
 #include <message_serialization/std_msgs_yaml.h>
 #include <sensor_msgs/CameraInfo.h>
+#include <sensor_msgs/JointState.h>
 
 namespace YAML
 {
@@ -108,6 +109,36 @@ struct convert<sensor_msgs::CameraInfo>
   }
 };
 
-}
+template<>
+struct convert<sensor_msgs::JointState>
+{
+  static Node encode(const sensor_msgs::JointState& rhs)
+  {
+    Node node;
+
+    node["header"] = rhs.header;
+    node["name"] = rhs.name;
+    node["position"] = rhs.position;
+    node["velocity"] = rhs.velocity;
+    node["effort"] = rhs.effort;
+
+    return node;
+  }
+
+  static bool decode(const Node& node, sensor_msgs::JointState& rhs)
+  {
+    if (node.size() != 5) return false;
+
+    rhs.header = node["header"].as<decltype (rhs.header)>();
+    rhs.name = node["name"].as<decltype (rhs.name)>();
+    rhs.position = node["position"].as<decltype (rhs.position)>();
+    rhs.velocity = node["velocity"].as<decltype (rhs.velocity)>();
+    rhs.effort = node["effort"].as<decltype (rhs.effort)>() ;
+
+    return true;
+  }
+};
+
+} // namespace YAML
 
 #endif // MESSAGE_SERIALIZATION_SENSOR_MSGS_YAML
