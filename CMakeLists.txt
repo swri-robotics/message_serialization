@@ -8,6 +8,7 @@ find_package(catkin REQUIRED COMPONENTS
   geometry_msgs
   sensor_msgs
   std_msgs
+  roscpp_serialization
   trajectory_msgs
 )
 
@@ -21,6 +22,7 @@ catkin_package(
     geometry_msgs
     sensor_msgs
     std_msgs
+    roscpp_serialization
     trajectory_msgs
   DEPENDS
     YAML_CPP
