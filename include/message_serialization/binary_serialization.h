@@ -3,6 +3,7 @@
 
 #include <fstream>
 #include <ros/serialization.h>
+#include <ros/console.h>
 
 namespace message_serialization
 {
@@ -44,11 +45,21 @@ inline bool deserializeFromBinary(const std::string& file,
 
   boost::shared_array<uint8_t> ibuffer(new uint8_t[file_size]);
   ifs.read((char*) ibuffer.get(), file_size);
-  ros::serialization::IStream istream(ibuffer.get(), file_size);
-  ros::serialization::deserialize(istream, message);
+
+  bool success = true;
+  try
+  {
+    ros::serialization::IStream istream(ibuffer.get(), file_size);
+    ros::serialization::deserialize(istream, message);
+  }
+  catch (const std::exception &ex)
+  {
+    ROS_ERROR_STREAM("Deserialization error: '" << ex.what() << "'");
+    success = false;
+  }
 
   ifs.close();
-  return true;
+  return success;
 }
 
 } // namespace amsted_message_serialization
