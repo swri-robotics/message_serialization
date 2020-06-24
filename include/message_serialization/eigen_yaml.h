@@ -21,6 +21,25 @@
 
 namespace YAML
 {
+template<>
+struct convert<Eigen::Isometry3d>
+{
+  static Node encode(const Eigen::Isometry3d &rhs)
+  {
+    geometry_msgs::Pose msg;
+    tf::poseEigenToMsg(rhs, msg);
+    Node node = Node(msg);
+    return node;
+  }
+
+  static bool decode(const Node &node, Eigen::Isometry3d &rhs)
+  {
+    geometry_msgs::Pose msg;
+    msg = node.as<geometry_msgs::Pose>();
+    tf::poseMsgToEigen(msg, rhs);
+    return true;
+  }
+};
 
 template<>
 struct convert<Eigen::Affine3d>
