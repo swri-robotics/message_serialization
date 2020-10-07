@@ -77,6 +77,46 @@ inline bool deserializeFromBinary(const std::string& file,
   return success;
 }
 
-} // namespace amsted_message_serialization
+/**
+ * @brief serializeToBuffer Serialize a ros message into a shared_array<uint8_t>
+ * @param buffer out shared_array<uint8_t>
+ * @param message in A ros message
+ * @return number of bytes in the buffer
+ */
+template <typename T>
+inline uint32_t serializeToBuffer(boost::shared_array<uint8_t> buffer, const T& message)
+{
+  uint32_t serial_size = ros::serialization::serializationLength(message);
+  buffer.reset(new uint8_t[serial_size]);
+  ros::serialization::OStream stream(buffer.get(), serial_size);
+  ros::serialization::serialize(stream, message);
+  return serial_size;
+}
+
+/**
+ * @brief deserializeFromBuffer
+ * @param buffer in raw uint8_t* Using a raw pointer as a shared_array will force the caller to store their data in one
+ * and can lead to undesired delete[]s.  (like sqlite blobs)
+ * @param size in size of buffer
+ * @param message out a ros message
+ * @return success
+ */
+template <typename T>
+inline bool deserializeFromBuffer(const uint8_t* const buffer, const uint32_t size, T& message)
+{
+  bool success = true;
+  try
+  {
+    ros::serialization::IStream istream(const_cast<uint8_t*>(buffer), size);
+    ros::serialization::deserialize(istream, message);
+  }
+  catch (const std::exception& ex)
+  {
+    ROS_ERROR_STREAM("Deserialization error: '" << ex.what() << "'");
+    success = false;
+  }
+  return success;
+}
+}  // namespace message_serialization
 
 #endif // AMSTED_MESSAGE_SERIALIZATION_BINARY_SERIALIZATION_H
