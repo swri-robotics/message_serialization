@@ -84,7 +84,7 @@ inline bool deserializeFromBinary(const std::string& file,
  * @return number of bytes in the buffer
  */
 template <typename T>
-inline uint32_t serializeToBuffer(boost::shared_array<uint8_t> buffer, const T& message)
+inline uint32_t serializeToBuffer(boost::shared_array<uint8_t>& buffer, const T& message)
 {
   uint32_t serial_size = ros::serialization::serializationLength(message);
   buffer.reset(new uint8_t[serial_size]);
