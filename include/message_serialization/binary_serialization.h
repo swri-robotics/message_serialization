@@ -102,12 +102,12 @@ inline uint32_t serializeToBuffer(boost::shared_array<uint8_t>& buffer, const T&
  * @return success
  */
 template <typename T>
-inline bool deserializeFromBuffer(const uint8_t* const buffer, const uint32_t size, T& message)
+inline bool deserializeFromBuffer(uint8_t* const buffer, const uint32_t size, T& message)
 {
   bool success = true;
   try
   {
-    ros::serialization::IStream istream(const_cast<uint8_t*>(buffer), size);
+    ros::serialization::IStream istream(buffer, size);
     ros::serialization::deserialize(istream, message);
   }
   catch (const std::exception& ex)
