@@ -23,6 +23,12 @@
 namespace message_serialization
 {
 
+/**
+ * @brief Serializes a ROS message to a binary file
+ * @param file
+ * @param message ROS message to serialize
+ * @return
+ */
 template<typename T>
 inline bool serializeToBinary(const std::string& file,
                               const T& message)
@@ -42,6 +48,12 @@ inline bool serializeToBinary(const std::string& file,
   return false;
 }
 
+/**
+ * @brief De-serializes a binary file into a ROS message
+ * @param file
+ * @param message (output) ROS message
+ * @return
+ */
 template<typename T>
 inline bool deserializeFromBinary(const std::string& file,
                                   T& message)
@@ -78,9 +90,9 @@ inline bool deserializeFromBinary(const std::string& file,
 }
 
 /**
- * @brief serializeToBuffer Serialize a ros message into a shared_array<uint8_t>
- * @param buffer out shared_array<uint8_t>
- * @param message in A ros message
+ * @brief Serializes a ROS message into a shared_array<uint8_t>
+ * @param buffer (output) Data array buffer
+ * @param message ROS message to serialize
  * @return number of bytes in the buffer
  */
 template <typename T>
@@ -94,11 +106,10 @@ inline uint32_t serializeToBuffer(boost::shared_array<uint8_t>& buffer, const T&
 }
 
 /**
- * @brief deserializeFromBuffer
- * @param buffer in raw uint8_t* Using a raw pointer as a shared_array will force the caller to store their data in one
- * and can lead to undesired delete[]s.  (like sqlite blobs)
- * @param size in size of buffer
- * @param message out a ros message
+ * @brief De-serializes an array of known length into a ROS message
+ * @param buffer Data array buffer
+ * @param size Buffer size
+ * @param message (output) ROS message
  * @return success
  */
 template <typename T>
@@ -119,4 +130,4 @@ inline bool deserializeFromBuffer(uint8_t* const buffer, const uint32_t size, T&
 }
 }  // namespace message_serialization
 
-#endif // AMSTED_MESSAGE_SERIALIZATION_BINARY_SERIALIZATION_H
+#endif // MESSAGE_SERIALIZATION_BINARY_SERIALIZATION_H
