@@ -49,7 +49,6 @@ struct convert<geometry_msgs::Vector3>
 };
 
 template<>
-
 struct convert<geometry_msgs::Point>
 {
   static Node encode(const geometry_msgs::Point& rhs)

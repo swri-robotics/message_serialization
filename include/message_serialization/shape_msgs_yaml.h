@@ -16,37 +16,15 @@
 #ifndef MESSAGE_SERIALIZATION_SHAPE_MSGS_YAML
 #define MESSAGE_SERIALIZATION_SHAPE_MSGS_YAML
 
-#include <geometry_msgs/Point.h>
+
 #include <shape_msgs/Mesh.h>
 #include <shape_msgs/MeshTriangle.h>
+
 #include <message_serialization/std_msgs_yaml.h>
+#include <message_serialization/geometry_msgs_yaml.h>
 
 namespace YAML
 {
-
-template<>
-struct convert<geometry_msgs::Point>
-{
-  static Node encode(const geometry_msgs::Point& rhs)
-  {
-    Node node;
-    node["x"] = rhs.x;
-    node["y"] = rhs.y;
-    node["z"] = rhs.z;
-    return node;
-  }
-
-  static bool decode(const Node& node, geometry_msgs::Point& rhs)
-  {
-    if (node.size() != 3) return false;
-
-    rhs.x = node["x"].as<double>();
-    rhs.y = node["y"].as<double>();
-    rhs.z = node["z"].as<double>();
-    
-    return true;
-  }
-};
 
 
 template<>
