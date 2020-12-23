@@ -22,37 +22,77 @@
 
 namespace message_serialization
 {
-
+/**
+ * @brief Serializes an input object to a YAML-formatted file
+ * @param file
+ * @param val
+ * @throws exception on failure to open or write to a file stream
+ */
 template <class T>
-bool serialize(const std::string &file, const T& val)
+void serialize(const std::string& file, const T& val)
 {
-  std::ofstream ofh (file);
+  std::ofstream ofh(file);
   if (!ofh)
-  {
-    return false;
-  }
+    throw std::runtime_error("Failed to open output file stream at '" + file + "'");
 
   YAML::Node n = YAML::Node(val);
   ofh << n;
-  return true;
 }
 
+/**
+ * @brief Serializes an input object to a YAML-formatted file
+ * @param file
+ * @param val
+ * @return true on success, false otherwise
+ */
 template <class T>
-bool deserialize(const std::string &file, T& val)
+bool serialize(const std::string& file, const T& val) noexcept
 {
   try
   {
-    YAML::Node node;
-    node = YAML::LoadFile(file);
-    val = node.as<T>();
-    return true;
+    serialize(file, val);
   }
-  catch (const YAML::Exception& ex)
+  catch (const std::exception& ex)
   {
-    ROS_ERROR_STREAM("An exception was thrown while processing file: " << file);
     ROS_ERROR_STREAM(ex.what());
     return false;
   }
+  return true;
+}
+
+/**
+ * @brief Deserializes a YAML-formatted file into a specific object type
+ * @param file
+ * @return
+ * @throws exception when unable to load the file or convert it to the specified type
+ */
+template <class T>
+T deserialize(const std::string &file)
+{
+  YAML::Node node;
+  node = YAML::LoadFile(file);
+  return node.as<T>();
+}
+
+/**
+ * @brief Deserializes a YAML-formatted file into a specific object type
+ * @param file
+ * @param val
+ * @return true on success, false otherwise
+ */
+template <class T>
+bool deserialize(const std::string &file, T& val) noexcept
+{
+  try
+  {
+    val = deserialize<T>(file);
+  }
+  catch (const std::exception& ex)
+  {
+    ROS_ERROR_STREAM("Deserialization error: " << ex.what());
+    return false;
+  }
+  return true;
 }
 
 } // namespace message_serialization
