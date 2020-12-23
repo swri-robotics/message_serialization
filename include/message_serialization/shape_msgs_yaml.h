@@ -68,8 +68,8 @@ struct convert<shape_msgs::Mesh>
   {
     if (node.size() != 2) return false;
 
-    rhs.triangles = node["triangles"].as<std::vector< shape_msgs::MeshTriangle> >();
-    rhs.vertices  = node["vertices"].as<std::vector<geometry_msgs::Point> >();
+    rhs.triangles = node["triangles"].as<decltype (rhs.triangles) >();
+    rhs.vertices  = node["vertices"].as<decltype(rhs.vertices) >();
 
     return true;
   }
