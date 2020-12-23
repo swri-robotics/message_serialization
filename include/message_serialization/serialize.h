@@ -29,7 +29,7 @@ namespace message_serialization
  * @throws exception on failure to open or write to a file stream
  */
 template <class T>
-void serialize(const std::string& file, const T& val)
+inline void serialize(const std::string& file, const T& val)
 {
   std::ofstream ofh(file);
   if (!ofh)
@@ -46,7 +46,7 @@ void serialize(const std::string& file, const T& val)
  * @return true on success, false otherwise
  */
 template <class T>
-bool serialize(const std::string& file, const T& val) noexcept
+inline bool serialize(const std::string& file, const T& val) noexcept
 {
   try
   {
@@ -67,7 +67,7 @@ bool serialize(const std::string& file, const T& val) noexcept
  * @throws exception when unable to load the file or convert it to the specified type
  */
 template <class T>
-T deserialize(const std::string &file)
+inline T deserialize(const std::string &file)
 {
   YAML::Node node;
   node = YAML::LoadFile(file);
@@ -81,7 +81,7 @@ T deserialize(const std::string &file)
  * @return true on success, false otherwise
  */
 template <class T>
-bool deserialize(const std::string &file, T& val) noexcept
+inline bool deserialize(const std::string &file, T& val) noexcept
 {
   try
   {
