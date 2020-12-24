@@ -24,12 +24,12 @@ namespace message_serialization
 {
 /**
  * @brief Serializes an input object to a YAML-formatted file
- * @param file
  * @param val
+ * @param file
  * @throws exception on failure to open or write to a file stream
  */
 template <class T>
-inline void serialize(const std::string& file, const T& val)
+inline void serialize(const T& val, const std::string& file)
 {
   std::ofstream ofh(file);
   if (!ofh)
@@ -50,7 +50,7 @@ inline bool serialize(const std::string& file, const T& val) noexcept
 {
   try
   {
-    serialize(file, val);
+    serialize<T>(val, file);
   }
   catch (const std::exception& ex)
   {

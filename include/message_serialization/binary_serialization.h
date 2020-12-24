@@ -29,7 +29,7 @@ namespace message_serialization
  * @throws on failure to open or write to a file stream
  */
 template<typename T>
-inline void serializeToBinary(const std::string& file, const T& message)
+inline void serializeToBinary(const T& message, const std::string& file)
 {
   uint32_t serial_size = ros::serialization::serializationLength(message);
   boost::shared_array<uint8_t> buffer(new uint8_t[serial_size]);
@@ -60,7 +60,7 @@ inline bool serializeToBinary(const std::string& file, const T& message) noexcep
 {
   try
   {
-    serializeToBinary(file, message);
+    serializeToBinary<T>(message, file);
   }
   catch (const std::exception& ex)
   {
