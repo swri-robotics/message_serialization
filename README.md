@@ -1,4 +1,6 @@
 # message_serialization
+![](https://github.com/swri-robotics/message_serialization/workflows/CI/badge.svg)
+[![license - Apache 2.0](https://img.shields.io/:license-Apache%202.0-yellowgreen.svg)](https://opensource.org/licenses/Apache-2.0)
 
 A header-only utility for serializing C++ structures (specifically ROS messages) into YAML-formatted and binary-formatted files that can be loaded to/from disk
 
