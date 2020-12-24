@@ -16,17 +16,12 @@
 #ifndef MESSAGE_SERIALIZATION_SHAPE_MSGS_YAML
 #define MESSAGE_SERIALIZATION_SHAPE_MSGS_YAML
 
-
-#include <shape_msgs/Mesh.h>
-#include <shape_msgs/MeshTriangle.h>
-
 #include <message_serialization/std_msgs_yaml.h>
 #include <message_serialization/geometry_msgs_yaml.h>
+#include <shape_msgs/Mesh.h>
 
 namespace YAML
 {
-
-
 template<>
 struct convert<shape_msgs::MeshTriangle>
 {
