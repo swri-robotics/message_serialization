@@ -31,7 +31,6 @@ catkin_package(
 ###########
 ## Build ##
 ###########
-
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
@@ -41,7 +40,6 @@ include_directories(
 #############
 ## Install ##
 #############
-
 install(DIRECTORY include/${PROJECT_NAME}/
   DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
 )
@@ -49,3 +47,12 @@ install(DIRECTORY include/${PROJECT_NAME}/
 #############
 ## Testing ##
 #############
+if(CATKIN_ENABLE_TESTING)
+  find_package(catkin REQUIRED COMPONENTS
+    roscpp
+    tf2_eigen
+  )
+  find_package(rostest REQUIRED)
+  catkin_add_gtest(utest test/utest.cpp)
+  target_link_libraries(utest ${catkin_LIBRARIES} ${YAML_CPP_LIBRARIES})
+endif()
